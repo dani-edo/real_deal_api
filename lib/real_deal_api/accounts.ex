@@ -1,3 +1,4 @@
+# interaction between object and the database
 defmodule RealDealApi.Accounts do
   @moduledoc """
   The Accounts context.
