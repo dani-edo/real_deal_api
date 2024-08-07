@@ -21,5 +21,14 @@ defmodule RealDealApi.Accounts.Account do
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces") # email format validation
     |> validate_length(:email, max: 160)
     |> unique_constraint(:email) # unique email validation (before validated by database)
+    |> put_password_hash()
   end
+
+  # handhle hashing password
+  def put_password_hash(%Ecto.Changeset{valid?: true, changes: %{hash_password: hash_password}} = changeset) do
+    change(changeset, hash_password: Bcrypt.hash_pwd_salt(hash_password))
+  end
+
+  # if change set is not valid, so will return changeset
+  def put_password_hash(changeset), do: changeset
 end
