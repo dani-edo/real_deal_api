@@ -5,21 +5,21 @@ defmodule RealDealApiWeb.AccountJSON do
   Renders a list of accounts.
   """
   def index(%{accounts: accounts}) do
-    %{data: for(account <- accounts, do: data(account))}
+    %{data: for(account <- accounts, do: data(account, nil))}
   end
 
   @doc """
   Renders a single account.
   """
-  def show(%{account: account}) do
-    %{data: data(account)}
+  def show(%{account: account, token: token}) do
+    %{data: data(account, token)}
   end
 
-  defp data(%Account{} = account) do
+  defp data(%Account{} = account, token) do
     %{
       id: account.id,
       email: account.email,
-      hash_password: account.hash_password
+      token: token
     }
   end
 end
